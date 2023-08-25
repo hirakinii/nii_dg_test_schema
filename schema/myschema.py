@@ -53,7 +53,7 @@ class MySchema(DataEntity):
         else:
             gh_repo = GH_REPO
         gh_ref = package_info.get("REPO_REF", GH_REF)
-        self.data["@context"] = generate_ctx(gh_repo, gh_ref)
+        self.data["@context"] = generate_ctx(gh_repo, gh_ref, schema_name=schema_name)
 
     def check_props(self) -> None:
         super().check_props()

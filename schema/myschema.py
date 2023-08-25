@@ -26,7 +26,7 @@ SCHEMA_NAME = Path(__file__).stem
 SCHEMA_FILE_PATH = Path(__file__).resolve().parent.joinpath(f"{SCHEMA_NAME}.yml")
 SCHEMA_DEF = load_schema_file(SCHEMA_FILE_PATH)
 
-PACKAGE_INFO_PATH = Path(__file__).resolve().parent.joinpath("package_info.json")
+PACKAGE_INFO_PATH = Path(__file__).resolve().parent.resolve().parent.joinpath("package_info.json")
 
 
 class MySchema(DataEntity):

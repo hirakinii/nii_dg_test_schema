@@ -1,0 +1,15 @@
+{
+  "@id": "https://raw.githubusercontent.com/hirakinii/nii_dg_test_schema/main/schema/context/myschema.jsonld",
+  "@version": 1.1,
+  "@context": {
+    "MySchema": {
+      "@id": "https://raw.githubusercontent.com/hirakinii/nii_dg_test_schema/main/nii_dg/schema/myschema.yml#MySchema",
+      "@context": {
+        "@id": "https://raw.githubusercontent.com/hirakinii/nii_dg_test_schema/main/nii_dg/schema/myschema.yml#MySchema:@id",
+        "name": "https://raw.githubusercontent.com/hirakinii/nii_dg_test_schema/main/nii_dg/schema/myschema.yml#MySchema:name",
+        "url": "https://raw.githubusercontent.com/hirakinii/nii_dg_test_schema/main/nii_dg/schema/myschema.yml#MySchema:url",
+        "message": "https://raw.githubusercontent.com/hirakinii/nii_dg_test_schema/main/nii_dg/schema/myschema.yml#MySchema:message"
+      }
+    }
+  }
+}

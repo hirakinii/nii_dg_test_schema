@@ -3,6 +3,7 @@ A test set of validation rules for MySchema.
 """
 
 
+import json
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict, List
 from urllib.request import urlopen
@@ -14,7 +15,8 @@ from nii_dg.check_functions import (check_entity_values, is_absolute_path,
                                     is_sha256, is_url, is_url_accessible)
 from nii_dg.entity import ContextualEntity, DataEntity, EntityDef
 from nii_dg.error import EntityError
-from nii_dg.utils import load_schema_file
+from nii_dg.utils import load_schema_file, generate_ctx
+from nii_dg.module_info import GH_REF, GH_REPO
 
 if TYPE_CHECKING:
     from nii_dg.ro_crate import ROCrate
@@ -24,8 +26,12 @@ SCHEMA_NAME = Path(__file__).stem
 SCHEMA_FILE_PATH = Path(__file__).resolve().parent.joinpath(f"{SCHEMA_NAME}.yml")
 SCHEMA_DEF = load_schema_file(SCHEMA_FILE_PATH)
 
+PACKAGE_INFO_PATH = Path(__file__).resolve().parent.joinpath("package_info.json")
+
 
 class MySchema(DataEntity):
+    """MySchema
+    """
     def __init__(
         self,
         id_: str,
@@ -34,6 +40,20 @@ class MySchema(DataEntity):
         entity_def: EntityDef = SCHEMA_DEF["MySchema"],
     ):
         super().__init__(id_, props, schema_name, entity_def)
+
+        # because the super.__init__() force to set GH_REPO and GH_REF, we should replace them.
+        package_info: dict = None
+        with open(PACKAGE_INFO_PATH, "r", encoding="utf-8") as ff:
+            package_info = json.load(ff)
+        repo_owner = package_info.get("REPO_OWNER")
+        repo_name = package_info.get("REPO_NAME")
+        gh_repo = ""
+        if repo_owner is None or repo_name is None:
+            gh_repo = f"{repo_owner}/{repo_name}"
+        else:
+            gh_repo = GH_REPO
+        gh_ref = package_info.get("REPO_REF", GH_REF)
+        self.data["@context"] = generate_ctx(gh_repo, gh_ref)
 
     def check_props(self) -> None:
         super().check_props()

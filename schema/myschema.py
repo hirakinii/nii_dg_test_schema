@@ -49,9 +49,9 @@ class MySchema(DataEntity):
         repo_name = package_info.get("REPO_NAME")
         gh_repo = ""
         if repo_owner is None or repo_name is None:
-            gh_repo = f"{repo_owner}/{repo_name}"
-        else:
             gh_repo = GH_REPO
+        else:
+            gh_repo = f"{repo_owner}/{repo_name}"
         gh_ref = package_info.get("REPO_REF", GH_REF)
         self.data["@context"] = generate_ctx(gh_repo, gh_ref, schema_name=schema_name)
 
